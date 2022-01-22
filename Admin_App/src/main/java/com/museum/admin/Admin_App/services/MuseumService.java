@@ -14,6 +14,7 @@ public class MuseumService {
     private static final String FIND_ALL_QUERY = "select * from museum";
     private static final String UPDATE_QUERY = "update museum set name=?, address=?, phone_number=?, country=?, " +
             "city=?, type=?, latitude=?, longitude=? where id=?";
+    private static final String DELETE_QUERY = "delete from museum where id=?";
 
     public boolean insert(MuseumBean museumBean){
         Connection connection = null;
@@ -97,6 +98,26 @@ public class MuseumService {
                 preparedStatement.setFloat(7, updatedMuseum.getLatitude());
                 preparedStatement.setFloat(8, updatedMuseum.getLongitude());
                 preparedStatement.setInt(9, updatedMuseum.getId());
+                status = preparedStatement.execute();
+            }
+        } catch (SQLException exception) {
+            System.err.println(exception.getMessage());
+        } finally {
+            ConnectionPool.releaseConnection(connection);
+        }
+        return status;
+    }
+
+    public boolean deleteById(int id){
+        Connection connection = null;
+        boolean status = false;
+        if(this.findById(id) == null){
+            return false;
+        }
+        try{
+            connection = ConnectionPool.getConnection();
+            try(PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUERY)) {
+                preparedStatement.setInt(1, id);
                 status = preparedStatement.execute();
             }
         } catch (SQLException exception) {

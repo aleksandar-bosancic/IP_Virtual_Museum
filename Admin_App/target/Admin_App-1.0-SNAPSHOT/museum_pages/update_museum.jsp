@@ -22,7 +22,7 @@
     museumBean.setLatitude(Float.parseFloat(request.getParameter("latitude")));
     museumBean.setLongitude(Float.parseFloat(request.getParameter("longitude")));
     museumService.updateById(Integer.parseInt(request.getParameter("id")), museumBean);
-    response.sendRedirect("index.jsp");
+    response.sendRedirect("../index.jsp");
 }
 } %>
 <html>

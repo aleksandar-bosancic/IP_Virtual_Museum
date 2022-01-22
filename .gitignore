@@ -1,0 +1,10 @@
+#Sonarlint
+/Admin_App/.idea/sonarlint/
+# Default ignored files
+/Admin_App/.idea/shelf/
+/Admin_App/.idea/workspace.xml
+# Datasource local storage ignored files
+/Admin_App/.idea/dataSources/
+/Admin_App/.idea/dataSources.local.xml
+# Editor-based HTTP Client requests
+/Admin_App/.idea/httpRequests/

@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="museumBean" class="com.museum.admin.Admin_App.beans.MuseumBean" scope="request"/>
 <jsp:useBean id="museumService" class="com.museum.admin.Admin_App.services.MuseumService" scope="application"/>
-<jsp:useBean id="museumBean" class="com.museum.admin.Admin_App.beans.MuseumBean" scope="request"/>
 <jsp:setProperty name="museumBean" property="id" param="id"/>
 <jsp:setProperty name="museumBean" property="name" param="name"/>
 <jsp:setProperty name="museumBean" property="address" param="address"/>
@@ -22,7 +21,7 @@
         </script>
        <% } else {
             museumService.insert(museumBean);
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("../index.jsp");
         }
     } %>
 <html>
