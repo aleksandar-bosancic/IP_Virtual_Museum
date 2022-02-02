@@ -10,6 +10,15 @@ public class MediaBean implements Serializable {
     private String path;
     private boolean isVideo;
 
+    @Override
+    public String toString() {
+        return "MediaBean{" +
+                "museumId=" + museumId +
+                ", path='" + path + '\'' +
+                ", isVideo=" + isVideo +
+                '}';
+    }
+
     public int getId() {
         return id;
     }

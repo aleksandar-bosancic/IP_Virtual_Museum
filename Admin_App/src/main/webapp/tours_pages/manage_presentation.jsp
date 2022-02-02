@@ -37,18 +37,35 @@
     function setHiddenInput() {
         document.getElementById('museumIdInput').value = document.getElementById('museumId').value;
     }
+    function toggleChanged(toggle){
+        let input = document.getElementById('pathInput');
+        let form = document.getElementById('inputForm');
+
+        if (toggle.checked){
+            input.setAttribute('type', 'text');
+            form.removeAttribute('enctype');
+            form.setAttribute('action', 'add_video_link.jsp');
+            document.getElementById('toggleButtonLabel').innerHTML = 'File';
+        } else {
+            input.setAttribute('type', 'file');
+            form.setAttribute('enctype', 'multipart/form-data');
+            form.setAttribute('action', 'UploadServlet');
+            document.getElementById('toggleButtonLabel').innerHTML = 'Link';
+        }
+        console.log(document.getElementById('toggleButtonLabel').value);
+    }
 </script>
 <script type="text/javascript">
     $(document).ready(
         function(){
-            $('#fileSubmit').attr('disabled',true);
-            $('#fileUpload').change(
+            $('#pathSubmit').attr('disabled',true);
+            $('#pathInput').change(
                 function(){
                     if ($(this).val()){
-                        $('#fileSubmit').removeAttr('disabled');
+                        $('#pathSubmit').removeAttr('disabled');
                     }
                     else {
-                        $('#fileSubmit').attr('disabled',true);
+                        $('#pathSubmit').attr('disabled',true);
                     }
                 });
         });
@@ -69,10 +86,12 @@
         </div>
         <% if (mediaList.size() < 11) {%>
         <div class="mb-3">
-            <form style="display: flex; flex-direction: row" method="post" action="UploadServlet" enctype="multipart/form-data">
+            <form style="width: 30vw; display: flex; flex-direction: row; justify-content: space-between" id="inputForm" method="post" action="UploadServlet" enctype="multipart/form-data">
                 <input type="number" name="museumIdInput" id="museumIdInput" hidden>
-                <input class="form-control" type="file" id="fileUpload" name="UploadServlet" accept="image/*,video/*">
-                <input class="btn btn-primary" name="UploadServlet" id="fileSubmit" type="submit" value="Add">
+                <input type="checkbox" class="btn-check" style="width: 5vw;" id="toggleButton" onchange="toggleChanged(this)" autocomplete="off">
+                <label class="btn btn-outline-primary" style="width: 5vw;" id="toggleButtonLabel" for="toggleButton">Link</label>
+                <input class="form-control" style="width: 20vw;" type="file" id="pathInput" name="pathInput" accept="image/*,video/*">
+                <input class="btn btn-primary" id="pathSubmit" type="submit" value="Add">
             </form>
         </div>
         <% } %>
@@ -83,7 +102,6 @@
                 <thead>
                 <tr>
                     <th scope="col">Media</th>
-                    <th scope="col">Edit</th>
                     <th scope="col">Remove</th>
                 </tr>
                 </thead>
@@ -94,19 +112,15 @@
                     <td>
                         <div style="display: flex; flex-direction: row; justify-content:  space-between; align-items: center">
                             <div class="embed-responsive embed-responsive-16by9">
+                                <% if(videoMedia.get().getPath().contains("https")) { %>
+                                <iframe width="640"  height="420" src="<%=videoMedia.get().getPath()%>">
+                                </iframe>
+                                <% } else { %>
                                 <video id="video" src="<%=videoMedia.get().getPath()%>" class="embed-responsive-item" controls>
                                 </video>
+                                <% } %>
                             </div>
                         </div>
-                    </td>
-                    <td>
-                        <a class="btn btn-primary" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                            </svg>
-                            Edit
-                        </a>
                     </td>
                     <td>
                         <a class="btn btn-primary" href="delete_media.jsp?id=<%=videoMedia.get().getId()%>&museumId=<%=videoMedia.get().getMuseumId()%>">
@@ -129,15 +143,6 @@
                                 </div>
                             </div>
                         </div>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary" type="submit" name="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                            </svg>
-                            Edit
-                        </button>
                     </td>
                     <td>
                         <a class="btn btn-primary" href="delete_media.jsp?id=<%=media.getId()%>&museumId=<%=media.getMuseumId()%>">

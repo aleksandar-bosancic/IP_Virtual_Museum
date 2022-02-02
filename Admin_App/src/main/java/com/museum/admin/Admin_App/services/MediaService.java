@@ -17,6 +17,19 @@ public class MediaService {
     private static final String INSERT_QUERY = "insert into media(id, museum_id, path, is_video) " +
             "value(?,?,?,?)";
 
+    private List<MediaBean> mediaList;
+
+    public MediaService(){
+        mediaList = this.findAll();
+    }
+
+    private void updateMediaList(){
+        mediaList = this.findAll();
+    }
+
+    private boolean checkIfMuseumHasVideo(int museumId){
+        return mediaList.stream().filter(mediaBean -> mediaBean.getMuseumId() == museumId).anyMatch(MediaBean::isVideo);
+    }
 
     public boolean insert(MediaBean mediaBean){
         Connection connection = null;
@@ -28,7 +41,12 @@ public class MediaService {
                 preparedStatement.setInt(2, mediaBean.getMuseumId());
                 preparedStatement.setString(3, mediaBean.getPath());
                 preparedStatement.setBoolean(4, mediaBean.isVideo());
-                status = preparedStatement.execute();
+                if(mediaBean.isVideo() && checkIfMuseumHasVideo(mediaBean.getMuseumId())){
+                    return false;
+                }
+                int ret = preparedStatement.executeUpdate();
+                status = (ret == 1);
+                updateMediaList();
             }
         } catch (SQLException exception){
             System.err.println(exception.getMessage());
@@ -80,7 +98,10 @@ public class MediaService {
             connection = ConnectionPool.getConnection();
             try(PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUERY)) {
                 preparedStatement.setInt(1, id);
-                status = preparedStatement.execute();
+                int ret = preparedStatement.executeUpdate();
+                status = ret == 1;
+                updateMediaList();
+                System.out.println(status);
             }
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());

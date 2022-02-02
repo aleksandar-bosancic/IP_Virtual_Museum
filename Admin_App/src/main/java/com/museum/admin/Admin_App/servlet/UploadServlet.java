@@ -14,17 +14,9 @@ import java.io.IOException;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class UploadServlet extends HttpServlet {
     private static final long serialVersionUID = -352012349533206295L;
-    private static final String DEFAULT_FILENAME = "file.jpg";
+
     private static final String UPLOAD_DIRECTORY = "images";
     private static final String DEFAULT_PATH = ".." + File.separator + "images" + File.separator;
-
-    private String getFileName(Part part) {
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename"))
-                return content.substring(content.indexOf("=") + 2, content.length() - 1);
-        }
-        return DEFAULT_FILENAME;
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

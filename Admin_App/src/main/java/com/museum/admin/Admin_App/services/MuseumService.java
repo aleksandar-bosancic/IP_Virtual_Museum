@@ -31,8 +31,8 @@ public class MuseumService {
                 preparedStatement.setString(7, museumBean.getType());
                 preparedStatement.setFloat(8, museumBean.getLatitude());
                 preparedStatement.setFloat(9, museumBean.getLongitude());
-                status = preparedStatement.execute();
-                System.out.println(status);
+                int ret = preparedStatement.executeUpdate();
+                status = (ret == 1);
             }
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());
@@ -99,14 +99,14 @@ public class MuseumService {
                 preparedStatement.setFloat(7, updatedMuseum.getLatitude());
                 preparedStatement.setFloat(8, updatedMuseum.getLongitude());
                 preparedStatement.setInt(9, updatedMuseum.getId());
-                status = preparedStatement.execute();
+                int ret = preparedStatement.executeUpdate();
+                status = (ret == 1);
             }
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());
         } finally {
             ConnectionPool.releaseConnection(connection);
         }
-        System.out.println(status);
         return status;
     }
 
@@ -120,8 +120,8 @@ public class MuseumService {
             connection = ConnectionPool.getConnection();
             try(PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUERY)) {
                 preparedStatement.setInt(1, id);
-                status = preparedStatement.execute();
-                System.out.println(status);
+                int ret = preparedStatement.executeUpdate();
+                status = (ret == 1);
             }
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());

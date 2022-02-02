@@ -7,10 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TourService {
@@ -25,17 +22,15 @@ public class TourService {
         try {
             connection = ConnectionPool.getConnection();
             try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)){
-                Date date;
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyy-MM-dd HH:mm");
-                date = dateFormat.parse(tourBean.getDate() + " " + tourBean.getTime());
                 preparedStatement.setInt(1, 0);
                 preparedStatement.setInt(2, tourBean.getMuseumId());
                 preparedStatement.setString(3, tourBean.getDate() + " " + tourBean.getTime());
                 preparedStatement.setFloat(4, tourBean.getDuration());
                 preparedStatement.setFloat(5, tourBean.getPrice());
-                status = preparedStatement.execute();
+                int ret = preparedStatement.executeUpdate();
+                status = (ret == 1);
             }
-        } catch (SQLException | ParseException exception) {
+        } catch (SQLException exception) {
             System.err.println(exception.getMessage());
         } finally {
             ConnectionPool.releaseConnection(connection);
@@ -89,7 +84,8 @@ public class TourService {
             connection = ConnectionPool.getConnection();
             try(PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUERY)) {
                 preparedStatement.setInt(1, id);
-                status = preparedStatement.execute();
+                int ret = preparedStatement.executeUpdate();
+                status = (ret == 1);
             }
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());
