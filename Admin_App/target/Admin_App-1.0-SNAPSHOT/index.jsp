@@ -38,7 +38,7 @@
         </div>
     </nav>
 
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content ps-3 pe-3" id="myTabContent">
         <jsp:include page="home_tab.jsp"/>
         <jsp:include page="museums_tab.jsp"/>
         <jsp:include page="tours_tab.jsp"/>

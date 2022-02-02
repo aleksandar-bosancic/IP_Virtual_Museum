@@ -55,7 +55,7 @@
                 let countryCode = element.options[element.selectedIndex].id;
             $.ajax({
                 type: 'GET',
-                url: "http://battuta.medunes.net/api/region/" + countryCode + "/all/?key=97db76fcacfca6c4dfa700e7cc195188",
+                url: "http://battuta.medunes.net/api/region/" + countryCode + "/all/?key=18c266d52ee7f9a55cc5177e816e26cd",
                 dataType: 'jsonp',
                 async: true,
                 crossDomain: true,
@@ -65,7 +65,7 @@
                         $.ajax({
                             type: 'GET',
                             url: "http://battuta.medunes.net/api/city/" + countryCode +
-                                "/search/?region=" + value + "&key=97db76fcacfca6c4dfa700e7cc195188",
+                                "/search/?region=" + value + "&key=18c266d52ee7f9a55cc5177e816e26cd",
                             dataType: 'jsonp',
                             async: true,
                             crossDomain: true,

@@ -15,6 +15,14 @@ public class MuseumBean implements Serializable {
     private float latitude;
     private float longitude;
 
+    @Override
+    public String toString() {
+        return "MuseumBean{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public int getId() {
         return id;
     }

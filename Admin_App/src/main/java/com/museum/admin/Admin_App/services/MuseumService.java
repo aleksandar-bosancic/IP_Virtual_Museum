@@ -32,6 +32,7 @@ public class MuseumService {
                 preparedStatement.setFloat(8, museumBean.getLatitude());
                 preparedStatement.setFloat(9, museumBean.getLongitude());
                 status = preparedStatement.execute();
+                System.out.println(status);
             }
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());
@@ -105,6 +106,7 @@ public class MuseumService {
         } finally {
             ConnectionPool.releaseConnection(connection);
         }
+        System.out.println(status);
         return status;
     }
 
@@ -119,6 +121,7 @@ public class MuseumService {
             try(PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUERY)) {
                 preparedStatement.setInt(1, id);
                 status = preparedStatement.execute();
+                System.out.println(status);
             }
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());
