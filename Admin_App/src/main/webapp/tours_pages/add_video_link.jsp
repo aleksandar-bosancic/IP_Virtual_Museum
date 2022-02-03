@@ -1,7 +1,7 @@
 <%@ page import="java.util.regex.Pattern" %>
 <%@ page import="java.util.regex.Matcher" %>
-<jsp:useBean id="mediaService" class="com.museum.admin.Admin_App.services.MediaService"/>
-<jsp:useBean id="mediaBean" class="com.museum.admin.Admin_App.beans.MediaBean"/>
+<jsp:useBean id="mediaService" class="com.museum.admin.application.services.MediaService"/>
+<jsp:useBean id="mediaBean" class="com.museum.admin.application.beans.MediaBean"/>
 <%
     int museumId = Integer.parseInt(request.getParameter("museumIdInput"));
     String path = request.getParameter("pathInput");

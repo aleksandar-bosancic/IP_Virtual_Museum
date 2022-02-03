@@ -1,11 +1,11 @@
-<%@ page import="com.museum.admin.Admin_App.beans.MuseumBean" %>
+<%@ page import="com.museum.admin.application.beans.MuseumBean" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.museum.admin.Admin_App.beans.MediaBean" %>
+<%@ page import="com.museum.admin.application.beans.MediaBean" %>
 <%@ page import="java.util.Optional" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="museumBean" class="com.museum.admin.Admin_App.beans.MuseumBean"/>
-<jsp:useBean id="museumService" class="com.museum.admin.Admin_App.services.MuseumService"/>
-<jsp:useBean id="mediaService" class="com.museum.admin.Admin_App.services.MediaService"/>
+<jsp:useBean id="museumBean" class="com.museum.admin.application.beans.MuseumBean"/>
+<jsp:useBean id="museumService" class="com.museum.admin.application.services.MuseumService"/>
+<jsp:useBean id="mediaService" class="com.museum.admin.application.services.MediaService"/>
 <% List<MediaBean> mediaList = mediaService.findAllByMuseumId(Integer.parseInt(request.getParameter("id")));
 %>
 <html>
@@ -22,8 +22,13 @@
         <% Optional<MediaBean> videoMedia = mediaList.stream().filter(MediaBean::isVideo).findFirst();
             if (videoMedia.isPresent()) { %>
                 <div class="embed-responsive embed-responsive-16by9">
+                    <% if(videoMedia.get().getPath().contains("https")) { %>
+                    <iframe width="640"  height="420" src="<%=videoMedia.get().getPath()%>">
+                    </iframe>
+                    <% } else { %>
                     <video id="video" src="<%=videoMedia.get().getPath()%>" class="embed-responsive-item" controls>
                     </video>
+                    <% } %>
                 </div>
         <% } %>
         <% for (MediaBean media : mediaList) {

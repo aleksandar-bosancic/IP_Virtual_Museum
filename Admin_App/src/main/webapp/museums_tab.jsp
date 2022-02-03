@@ -1,5 +1,5 @@
-<%@ page import="com.museum.admin.Admin_App.beans.MuseumBean" %>
-<jsp:useBean id="museumService" class="com.museum.admin.Admin_App.services.MuseumService"/>
+<%@ page import="com.museum.admin.application.beans.MuseumBean" %>
+<jsp:useBean id="museumService" class="com.museum.admin.application.services.MuseumService"/>
 
 <div class="tab-pane fade" id="museums_panel" role="tabpanel" aria-labelledby="museums-tab">
     <a class="btn btn-primary" href="museum_pages/add_museum.jsp" style="margin-top: 2vh">

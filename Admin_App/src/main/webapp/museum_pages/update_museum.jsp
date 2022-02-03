@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="museumBean" class="com.museum.admin.Admin_App.beans.MuseumBean" scope="request"/>
-<jsp:useBean id="museumService" class="com.museum.admin.Admin_App.services.MuseumService" scope="application"/>
+<jsp:useBean id="museumBean" class="com.museum.admin.application.beans.MuseumBean" scope="request"/>
+<jsp:useBean id="museumService" class="com.museum.admin.application.services.MuseumService" scope="application"/>
 <!DOCTYPE html>
 <%
     museumBean = museumService.findById(Integer.parseInt(request.getParameter("id")));

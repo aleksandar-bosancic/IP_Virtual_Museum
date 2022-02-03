@@ -1,12 +1,12 @@
-<%@ page import="com.museum.admin.Admin_App.beans.MuseumBean" %>
+<%@ page import="com.museum.admin.application.beans.MuseumBean" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.museum.admin.Admin_App.beans.MediaBean" %>
+<%@ page import="com.museum.admin.application.beans.MediaBean" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.Optional" %>
-<jsp:useBean id="museumService" class="com.museum.admin.Admin_App.services.MuseumService"/>
-<jsp:useBean id="museumBean" class="com.museum.admin.Admin_App.beans.MuseumBean"/>
-<jsp:useBean id="mediaService" class="com.museum.admin.Admin_App.services.MediaService"/>
+<jsp:useBean id="museumService" class="com.museum.admin.application.services.MuseumService"/>
+<jsp:useBean id="museumBean" class="com.museum.admin.application.beans.MuseumBean"/>
+<jsp:useBean id="mediaService" class="com.museum.admin.application.services.MediaService"/>
 <!DOCTYPE html>
 <% List<MuseumBean> museumList = museumService.findAll();
     List<MediaBean> mediaList = new ArrayList<>();

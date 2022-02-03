@@ -1,10 +1,10 @@
-<%@ page import="com.museum.admin.Admin_App.beans.MuseumBean" %>
+<%@ page import="com.museum.admin.application.beans.MuseumBean" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="museumService" class="com.museum.admin.Admin_App.services.MuseumService"/>
-<jsp:useBean id="museumBean" class="com.museum.admin.Admin_App.beans.MuseumBean"/>
-<jsp:useBean id="tourService" class="com.museum.admin.Admin_App.services.TourService"/>
-<jsp:useBean id="tourBean" class="com.museum.admin.Admin_App.beans.TourBean"/>
+<jsp:useBean id="museumService" class="com.museum.admin.application.services.MuseumService"/>
+<jsp:useBean id="museumBean" class="com.museum.admin.application.beans.MuseumBean"/>
+<jsp:useBean id="tourService" class="com.museum.admin.application.services.TourService"/>
+<jsp:useBean id="tourBean" class="com.museum.admin.application.beans.TourBean"/>
 <jsp:setProperty name="tourBean" property="*"/>
 <% List<MuseumBean> museumList = museumService.findAll(); %>
 
