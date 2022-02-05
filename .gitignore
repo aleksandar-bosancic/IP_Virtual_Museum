@@ -8,3 +8,4 @@
 /Admin_App/.idea/dataSources.local.xml
 # Editor-based HTTP Client requests
 /Admin_App/.idea/httpRequests/
+/Admin_App/target/
