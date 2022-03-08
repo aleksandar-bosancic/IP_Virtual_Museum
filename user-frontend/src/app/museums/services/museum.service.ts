@@ -8,7 +8,7 @@ export class MuseumService {
 
   constructor(private http: HttpClient) { }
 
-  public getMuseumData(session: string) {
+  public getMuseumData() {
     return this.http.get("http://localhost:9000/museums")
   }
 }

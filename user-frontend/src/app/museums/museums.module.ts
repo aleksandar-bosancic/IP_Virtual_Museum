@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MuseumsRoutingModule } from './museums-routing.module';
 import { MuseumsComponent } from './museums/museums.component';
+import { AppMaterialModule } from '../app-material/app-material.module';
 
 
 @NgModule({
@@ -11,7 +12,11 @@ import { MuseumsComponent } from './museums/museums.component';
   ],
   imports: [
     CommonModule,
-    MuseumsRoutingModule
+    MuseumsRoutingModule,
+    AppMaterialModule
+  ],
+  exports: [
+    MuseumsComponent
   ]
 })
 export class MuseumsModule { }

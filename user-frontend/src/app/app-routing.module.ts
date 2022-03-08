@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {AuthGuard} from "./auth/services/auth.guard";
 
 const routes: Routes = [
   {
@@ -8,7 +9,17 @@ const routes: Routes = [
   },
   {
     path: 'museums',
-    loadChildren: () => import('./museums/museums.module').then(module => module.MuseumsModule)
+    loadChildren: () => import('./museums/museums.module').then(module => module.MuseumsModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./auth/auth.module').then(module => module.AuthModule)
+  },
+  {
+    path: '**',
+    redirectTo: '/',
+    pathMatch: 'full'
   }
 ];
 

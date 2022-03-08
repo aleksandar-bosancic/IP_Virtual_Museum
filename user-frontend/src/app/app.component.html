@@ -1,2 +1,14 @@
-
-<router-outlet></router-outlet>
+<mat-toolbar class="mat-toolbar-home" color="primary">
+  <div></div>
+  <H1>IP-Museums</H1>
+  <div *ngIf="!isLoggedIn()">
+    <button mat-raised-button style="justify-self: flex-end; align-self: center" (click)="openLogin()">Login</button>
+    <button mat-button routerLink="/register">Register</button>
+  </div>
+  <div *ngIf="isLoggedIn()">
+    <button mat-button (click)="logout()">Logout</button>
+  </div>
+</mat-toolbar>
+<div>
+  <router-outlet ></router-outlet>
+</div>
