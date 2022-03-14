@@ -1,6 +1,12 @@
 <mat-toolbar class="mat-toolbar-home" color="primary">
-  <div></div>
-  <H1>IP-Museums</H1>
+  <div>
+    <H1>IP-Museums</H1>
+  </div>
+  <div>
+    <a mat-button routerLink="home">Home</a>
+    <a mat-button routerLink="museums">Museums</a>
+    <a mat-button routerLink="tours">Tours</a>
+  </div>
   <div *ngIf="!isLoggedIn()">
     <button mat-raised-button style="justify-self: flex-end; align-self: center" (click)="openLogin()">Login</button>
     <button mat-button routerLink="/register">Register</button>
@@ -10,5 +16,7 @@
   </div>
 </mat-toolbar>
 <div>
-  <router-outlet ></router-outlet>
+  <router-outlet></router-outlet>
 </div>
+
+

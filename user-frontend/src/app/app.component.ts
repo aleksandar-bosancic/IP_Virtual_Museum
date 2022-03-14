@@ -32,5 +32,3 @@ export class AppComponent {
     })
   }
 }
-
-//TODO: Napravi back dugme koje koje ce biti aktivno van home stranice

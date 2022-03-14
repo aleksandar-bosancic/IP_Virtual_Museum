@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  CanDeactivate,
   Router,
   RouterStateSnapshot,
   UrlTree
@@ -19,7 +18,6 @@ export class AuthGuard implements CanActivate {
               state: RouterStateSnapshot): boolean | UrlTree {
     if (this.service.loggedIn){
       if (route.routeConfig?.path === 'register') {
-        console.log("registered")
         return this.router.parseUrl('/');
       } else {
         return true;
@@ -28,11 +26,9 @@ export class AuthGuard implements CanActivate {
       if (route.routeConfig?.path === 'register') {
         return true;
       } else {
+        alert('Please log in or register');
         return this.router.parseUrl('/');
       }
     }
-    return this.service.loggedIn;
   }
 }
-
-//TODO: Napravi novi guard da zabrani login i register ako si logovan

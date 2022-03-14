@@ -10,6 +10,9 @@ import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatTabsModule} from "@angular/material/tabs";
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatSortModule} from "@angular/material/sort";
 
 const materialModules = [
   MatAutocompleteModule,
@@ -22,7 +25,10 @@ const materialModules = [
   MatInputModule,
   MatIconModule,
   ReactiveFormsModule,
-  MatTabsModule
+  MatTabsModule,
+  MatSidenavModule,
+  MatButtonToggleModule,
+  MatSortModule
 ];
 
 @NgModule({
