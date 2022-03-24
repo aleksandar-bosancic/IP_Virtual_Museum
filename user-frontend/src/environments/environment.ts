@@ -4,7 +4,12 @@
 
 export const environment = {
   production: false,
-  apiURL: 'http://localhost:9000'
+  apiURL: 'http://localhost:9000',
+  forecastUrl: 'https://api.openweathermap.org/data/2.5/onecall?',
+  weatherApiKey: '5c1644877b838835621078dbc3012ed8',
+  forecastOptions: '&units=metric&exclude=minutely,hourly,alerts',
+  rssToJsonUrl: 'https://api.rss2json.com/v1/api.json?rss_url=',
+  newsFeedUrl: 'https://www.huffpost.com/section/arts/feed'
 };
 
 /*

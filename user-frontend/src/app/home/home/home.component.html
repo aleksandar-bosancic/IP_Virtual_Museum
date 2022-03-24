@@ -1,14 +1,22 @@
-<div class="main-content">
+<div class="unregistered-container" *ngIf="!isLoggedIn()">
     <mat-card class="info-card">
         <mat-card-header>
-            <mat-card-title>
-                Museums
+            <mat-card-title style="color: white">
+                Welcome to Virtual Museum Tours
             </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <a routerLink="/museums">Museums</a>
+            <p style="color: white">To use services of this application please log in</p>
+            <p style="color: white">or register if you don't have an account</p>
         </mat-card-content>
     </mat-card>
 </div>
-<button style="margin-top: 50px" mat-raised-button color="primary" (click)="send()">Send</button>
-
+<footer class="footer-home" *ngIf="isLoggedIn()">
+  <mat-list class="scrolling-wrapper" role="list">
+    <mat-card class="card-news" *ngFor="let news of newsData" [ngStyle]="{'background-image': 'url('+news.enclosure.link+')'}">
+      <a style="color: white" href="{{news.link}}" target="_blank"><h3>{{news.title}}</h3></a>
+      <p>{{news.description}}</p>
+      <p>{{news.pubDate}}</p>
+    </mat-card>
+  </mat-list>
+</footer>

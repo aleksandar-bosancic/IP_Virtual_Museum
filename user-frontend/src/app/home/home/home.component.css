@@ -1,0 +1,40 @@
+.unregistered-container {
+  display: flex;
+  bottom: 0;
+  height: 90vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-home {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background-color: #3f51b5;
+}
+
+.scrolling-wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: 5px 0;
+  flex-direction: row;
+}
+
+.info-card {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.card-news {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: auto;
+  min-width: 10vw;
+  width: 15vw;
+  height: 20vh;
+  background-color: #3f51b5;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+}

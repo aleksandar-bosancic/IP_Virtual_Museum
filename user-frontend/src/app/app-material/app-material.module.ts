@@ -13,6 +13,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSortModule} from "@angular/material/sort";
+import {MatListModule} from "@angular/material/list";
 
 const materialModules = [
   MatAutocompleteModule,
@@ -28,7 +29,8 @@ const materialModules = [
   MatTabsModule,
   MatSidenavModule,
   MatButtonToggleModule,
-  MatSortModule
+  MatSortModule,
+  MatListModule
 ];
 
 @NgModule({

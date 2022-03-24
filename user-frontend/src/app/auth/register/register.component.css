@@ -17,15 +17,18 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 .mat-form-field, .mat-raised-button {
   width: 300px;
 }
 
-input {
+.input {
   height: 18px;
+  color: white;
 }
+
 
 .div-column {
   display: flex;

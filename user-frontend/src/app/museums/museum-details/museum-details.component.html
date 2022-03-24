@@ -1,0 +1,66 @@
+<div>
+  <mat-card class="mat-card-header"><h2 class="museum-details-text">{{museum?.name}}</h2></mat-card>
+  <div class="container">
+    <div class="museum-details-container">
+      <mat-card><p class="museum-details-text">{{museum?.country}}</p></mat-card>
+      <mat-card><p class="museum-details-text">{{museum?.city}}</p></mat-card>
+      <mat-card><p class="museum-details-text">{{museum?.address}}</p></mat-card>
+      <mat-card><p class="museum-details-text">{{museum?.type}}</p></mat-card>
+      <mat-card><p class="museum-details-text">{{museum?.phoneNumber}}</p></mat-card>
+    </div>
+    <mat-card class="tours-container">
+      <h3 class="museum-details-text">Tours</h3>
+      <mat-selection-list role="list" [multiple]="false">
+        <mat-list-option (click)="tourSelected(tour)" *ngFor="let tour of tours" [value]="tour">
+          <p>{{tour.date | date: 'fullDate'}}</p>
+          <p>Time: {{tour.date | date: 'H:mm' : 'local'}}, Duration: {{tour.duration}}h</p>
+          <p>Price: {{tour.price}}</p>
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-card>
+  </div>
+  <div class="weather-container">
+    <!--  Current weather  -->
+    <mat-card>
+      <mat-list class="weather-list-container">
+        <h3 class="museum-details-text">Today, {{getFormattedDate(todayDate)}}</h3>
+        <mat-list-item>
+          <span>
+            <img *ngIf="weatherData" src="http://openweathermap.org/img/w/{{weatherData?.current.weather[0].icon}}.png" alt="Site Logo" width="50" height="50">
+          </span>
+          {{weatherData?.current.weather[0].main}}
+        </mat-list-item>
+        <mat-list-item>Temperature: {{roundNumber(weatherData?.current.temp)}}°C</mat-list-item>
+        <mat-list-item>Wind speed: {{roundNumber(weatherData?.current.wind_speed)}} m/s</mat-list-item>
+      </mat-list>
+    </mat-card>
+    <!--  Tomorrow weather  -->
+    <mat-card>
+      <mat-list class="weather-list-container">
+        <h3 class="museum-details-text">{{getFormattedDate(tomorrowDate)}}</h3>
+        <mat-list-item>
+          <span>
+            <img *ngIf="weatherData" src="http://openweathermap.org/img/w/{{weatherData?.daily[0].weather[0].icon}}.png" alt="Site Logo" width="50" height="50">
+          </span>
+          {{weatherData?.daily[0].weather[0].main}}
+        </mat-list-item>
+        <mat-list-item>Temperature: {{roundNumber(weatherData?.daily[0].temp.day)}}°C</mat-list-item>
+        <mat-list-item>Wind speed: {{roundNumber(weatherData?.daily[0].wind_speed)}} m/s</mat-list-item>
+      </mat-list>
+    </mat-card>
+    <!--  Day after tomorrow weather  -->
+    <mat-card>
+      <mat-list class="weather-list-container">
+        <h3 class="museum-details-text">{{getFormattedDate(dayAfterTomorrowDate)}}</h3>
+        <mat-list-item>
+          <span>
+            <img *ngIf="weatherData" src="http://openweathermap.org/img/w/{{weatherData?.daily[1].weather[0].icon}}.png" alt="Site Logo" width="50" height="50">
+          </span>
+          {{weatherData?.daily[0].weather[0].main}}
+        </mat-list-item>
+        <mat-list-item>Temperature: {{roundNumber(weatherData?.daily[1].temp.day)}}°C</mat-list-item>
+        <mat-list-item>Wind speed: {{roundNumber(weatherData?.daily[1].wind_speed)}} m/s</mat-list-item>
+      </mat-list>
+    </mat-card>
+  </div>
+</div>

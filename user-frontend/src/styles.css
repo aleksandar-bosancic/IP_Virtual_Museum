@@ -5,3 +5,24 @@ body {
   margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
   background-image: url("assets/images/museum-background.jpg");
 }
+
+.mat-dialog-container {
+  background-color: #3f51b5 !important;
+}
+
+.mat-list-option {
+  color: white;
+  border-radius: 5px;
+}
+
+.mat-list-option:hover{
+  background-color: #606FC7;
+}
+
+mat-form-field label {
+  color: white !important;
+}
+
+mat-form-field.mat-form-field-focused label {
+  color: white !important;
+}

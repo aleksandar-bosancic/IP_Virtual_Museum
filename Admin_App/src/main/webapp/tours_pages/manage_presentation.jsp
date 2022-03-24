@@ -112,11 +112,11 @@
                     <td>
                         <div style="display: flex; flex-direction: row; justify-content:  space-between; align-items: center">
                             <div class="embed-responsive embed-responsive-16by9">
-                                <% if(videoMedia.get().getPath().contains("https")) { %>
-                                <iframe width="640"  height="420" src="<%=videoMedia.get().getPath()%>">
+                                <% if(videoMedia.get().getUrl().contains("https")) { %>
+                                <iframe width="640"  height="420" src="<%=videoMedia.get().getUrl()%>">
                                 </iframe>
                                 <% } else { %>
-                                <video id="video" src="<%=videoMedia.get().getPath()%>" class="embed-responsive-item" controls>
+                                <video id="video" src="<%=videoMedia.get().getUrl()%>" class="embed-responsive-item" controls>
                                 </video>
                                 <% } %>
                             </div>
@@ -139,7 +139,7 @@
                         <div style="display: flex; width: 100vh; flex-direction: row; justify-content:  space-between; align-items: center">
                             <div>
                                 <div>
-                                    <img src="<%=media.getPath()%>" class="img-fluid" alt="Responsive image">
+                                    <img src="<%=media.getUrl()%>" class="img-fluid" alt="Responsive image">
                                 </div>
                             </div>
                         </div>

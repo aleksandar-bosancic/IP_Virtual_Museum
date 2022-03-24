@@ -1,8 +1,5 @@
-import {Component, OnInit, Output} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {LoginDialogComponent} from "../../auth/login-dialog/login-dialog.component";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AuthService} from "../../auth/services/auth.service";
+import {Component, OnInit} from '@angular/core';
+import {NewsService} from "../services/news.service";
 
 @Component({
   selector: 'app-home',
@@ -10,14 +7,19 @@ import {AuthService} from "../../auth/services/auth.service";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  public path: any;
+  public newsData: any;
 
-  constructor(public http: HttpClient) { }
-
-  ngOnInit(): void {
+  constructor(public service: NewsService) {
   }
 
-  send() {
-    let header = { headers: new HttpHeaders().set('Authorization', 'Digest ' + localStorage.getItem('token'))}
-    this.http.get("http://localhost:9000/test", header).subscribe();
+  ngOnInit(): void {
+    this.service.getNewsFeed().subscribe((res: any) => {
+      this.newsData = res.items.slice(5);
+    })
+  }
+
+  isLoggedIn() {
+    return localStorage.getItem('isLoggedIn');
   }
 }

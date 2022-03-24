@@ -2,7 +2,7 @@
   <div class="table-card">
     <mat-form-field appearance="standard" color="primary">
       <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Name or city" #input>
     </mat-form-field>
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="applySort($event)" class="mat-table-sticky">
       <ng-container matColumnDef="name">

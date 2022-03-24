@@ -17,6 +17,16 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(module => module.AuthModule)
   },
   {
+    path: 'tours/:id',
+    loadChildren: () => import('./tour/tour.module').then(module => module.TourModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'tours',
+    loadChildren: () => import('./tour/tour.module').then(module => module.TourModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: '/',
     pathMatch: 'full'

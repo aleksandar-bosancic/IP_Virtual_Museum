@@ -3,10 +3,7 @@ package com.museum.admin.application.services;
 import com.museum.admin.application.beans.MediaBean;
 import com.museum.admin.application.connection.ConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,8 +11,9 @@ import java.util.stream.Collectors;
 public class MediaService {
     private static final String FIND_ALL_QUERY = "select * from media";
     private static final String DELETE_QUERY = "delete from media where id=?";
-    private static final String INSERT_QUERY = "insert into media(id, museum_id, path, is_video) " +
-            "value(?,?,?,?)";
+    private static final String INSERT_QUERY = "insert into media(id, museum_id, path, url, is_video) " +
+            "value(?,?,?,?,?)";
+    private static final String UPDATE_URL_QUERY = "update media set url=?, path=? where id=?";
 
     private List<MediaBean> mediaList;
 
@@ -31,21 +29,44 @@ public class MediaService {
         return mediaList.stream().filter(mediaBean -> mediaBean.getMuseumId() == museumId).anyMatch(MediaBean::isVideo);
     }
 
-    public boolean insert(MediaBean mediaBean){
+    public void updateMediaPathURL(int id, String url, String path){
         Connection connection = null;
-        boolean status = false;
         try {
             connection = ConnectionPool.getConnection();
-            try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY)){
+            try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_URL_QUERY)){
+                preparedStatement.setString(1, url);
+                preparedStatement.setString(2, path);
+                preparedStatement.setInt(3, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException exception){
+            System.err.println(exception.getMessage());
+        } finally {
+            ConnectionPool.releaseConnection(connection);
+        }
+    }
+
+    public int insert(MediaBean mediaBean){
+        Connection connection = null;
+        int status = 0;
+        try {
+            connection = ConnectionPool.getConnection();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
                 preparedStatement.setInt(1, 0);
                 preparedStatement.setInt(2, mediaBean.getMuseumId());
                 preparedStatement.setString(3, mediaBean.getPath());
-                preparedStatement.setBoolean(4, mediaBean.isVideo());
+                preparedStatement.setString(4, mediaBean.getUrl());
+                preparedStatement.setBoolean(5, mediaBean.isVideo());
                 if(mediaBean.isVideo() && checkIfMuseumHasVideo(mediaBean.getMuseumId())){
-                    return false;
+                    return -1;
                 }
                 int ret = preparedStatement.executeUpdate();
-                status = (ret == 1);
+                try (ResultSet resultSet = preparedStatement.getGeneratedKeys()){
+                    if (resultSet.next()){
+                        mediaBean.setId(resultSet.getInt(1));
+                        status = resultSet.getInt(1);
+                    }
+                }
                 updateMediaList();
             }
         } catch (SQLException exception){
@@ -76,6 +97,7 @@ public class MediaService {
                     mediaBean.setId(resultSet.getInt("id"));
                     mediaBean.setMuseumId(resultSet.getInt("museum_id"));
                     mediaBean.setPath(resultSet.getString("path"));
+                    mediaBean.setUrl(resultSet.getString("url"));
                     mediaBean.setVideo(resultSet.getBoolean("is_video"));
                     mediaList.add(mediaBean);
                 }

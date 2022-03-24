@@ -8,7 +8,7 @@
 }
 
 .mat-row:hover .mat-cell {
-  background: whitesmoke;
+  background: #606FC7;
 }
 
 .mat-table {
@@ -21,6 +21,18 @@
   width: 50%;
   flex-direction: column;
   align-items: center;
-  background: white;
+  background: #3f51b5;
   border-radius: 10px;
+}
+
+.mat-cell {
+  color: white;
+}
+
+.mat-header-cell {
+  color: white;
+}
+
+.mat-input-element {
+  color: white;
 }

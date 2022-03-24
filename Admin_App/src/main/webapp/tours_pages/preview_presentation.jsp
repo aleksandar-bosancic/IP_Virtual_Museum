@@ -22,11 +22,11 @@
         <% Optional<MediaBean> videoMedia = mediaList.stream().filter(MediaBean::isVideo).findFirst();
             if (videoMedia.isPresent()) { %>
                 <div class="embed-responsive embed-responsive-16by9">
-                    <% if(videoMedia.get().getPath().contains("https")) { %>
-                    <iframe width="640"  height="420" src="<%=videoMedia.get().getPath()%>">
+                    <% if(videoMedia.get().getUrl().contains("https")) { %>
+                    <iframe width="640"  height="420" src="<%=videoMedia.get().getUrl()%>">
                     </iframe>
                     <% } else { %>
-                    <video id="video" src="<%=videoMedia.get().getPath()%>" class="embed-responsive-item" controls>
+                    <video id="video" src="<%=videoMedia.get().getUrl()%>" class="embed-responsive-item" controls>
                     </video>
                     <% } %>
                 </div>
@@ -34,7 +34,7 @@
         <% for (MediaBean media : mediaList) {
             if (!media.isVideo()) {%>
         <div class="mt-3">
-            <img src="<%=media.getPath()%>" class="img-fluid" alt="Responsive image">
+            <img src="<%=media.getUrl()%>" class="img-fluid" alt="Responsive image">
         </div>
         <% } }%>
         <div class="mt-5 mb-5">

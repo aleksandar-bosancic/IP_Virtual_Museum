@@ -9,39 +9,87 @@ import jakarta.servlet.annotation.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 
 @WebServlet(name = "UploadServlet", value = "/tours_pages/UploadServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class UploadServlet extends HttpServlet {
     private static final long serialVersionUID = -352012349533206295L;
 
-    private static final String UPLOAD_DIRECTORY = "images";
-    private static final String DEFAULT_PATH = ".." + File.separator + "images" + File.separator;
+//    private static final String UPLOAD_DIRECTORY = "media";
+//    private static final String DEFAULT_PATH = ".." + File.separator + UPLOAD_DIRECTORY + File.separator;
+    private static final String VIDEO = ".mp4";
+    private static final String IMAGE = ".jpg";
+    public static final String MEDIA = "media";
+    public static final String IMAGE_CONTENT_TYPE = "image/jpg";
+    public static final String VIDEO_CONTENT_TYPE = "video/mp4";
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        response.setContentType(IMAGE_CONTENT_TYPE);
+        MediaBean mediaBean = new MediaService().findAll().stream()
+                .filter(m -> m.getId() == Integer.parseInt(request.getParameter("id")))
+                .findFirst().orElse(null);
+        if (mediaBean == null){
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        response.setContentType((mediaBean.isVideo()? VIDEO_CONTENT_TYPE : IMAGE_CONTENT_TYPE));
+        File file = new File(mediaBean.getPath());
+        Files.copy(file.toPath(), response.getOutputStream());
     }
+
+//    @Override
+//    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        MediaService mediaService = new MediaService();
+//        MediaBean mediaBean = new MediaBean();
+//        int museumId = Integer.parseInt(request.getParameter("museumIdInput"));
+//        File file = new File("media/" + museumId);
+//        if(!file.exists()){
+//            file.mkdir();
+//        }
+//        try {
+//            String fileName = "";
+//            for (Part part : request.getParts()){
+//                fileName = part.getSubmittedFileName();
+//                if (fileName != null){
+//                    mediaBean.setMuseumId(museumId);
+//                    mediaBean.setPath(file.getPath());
+//                    mediaBean.setVideo(fileName.endsWith(".mp4"));
+//                    int mediaId = mediaService.insert(mediaBean);
+//                    part.write(file.getAbsolutePath() + File.separator + mediaId);
+//                    mediaService.updateMediaURL(mediaId, "localhost:8080/Admin_App_war_exploded/tours_pages/UploadServlet?id=" + mediaId);
+//                }
+//            }
+//        } catch (FileNotFoundException fne) {
+//            request.setAttribute("message", "There was an error: " + fne.getMessage());
+//        }
+//        response.sendRedirect(request.getContextPath() + "/tours_pages/manage_presentation.jsp?id=" + museumId);
+//    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
+        int museumId = Integer.parseInt(request.getParameter("museumIdInput"));
+        String extension;
+        String uploadPath = getServletContext().getRealPath(MEDIA + File.separator + museumId);
         MediaService mediaService = new MediaService();
         MediaBean mediaBean = new MediaBean();
-        int museumId = Integer.parseInt(request.getParameter("museumIdInput"));
         File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists())
+        if (!uploadDir.exists()) {
             uploadDir.mkdir();
+        }
         try {
             String fileName = "";
             for (Part part : request.getParts()) {
                 fileName = part.getSubmittedFileName();
                 if (fileName != null) {
-                    part.write(uploadPath + File.separator + fileName);
                     mediaBean.setMuseumId(museumId);
-                    mediaBean.setPath(DEFAULT_PATH + fileName);
                     mediaBean.setVideo(fileName.endsWith(".mp4"));
-                    mediaService.insert(mediaBean);
+                    int mediaId = mediaService.insert(mediaBean);
+                    extension = (mediaBean.isVideo())? VIDEO : IMAGE;
+                    mediaService.updateMediaPathURL(mediaId, "http://localhost:8080/Admin_App_war_exploded/tours_pages/UploadServlet?id="
+                            + mediaId, uploadPath + File.separator + mediaId + extension);
+                    part.write(uploadPath + File.separator + mediaId + extension);
                 }
             }
             request.setAttribute("message", "File " + fileName + " has uploaded successfully!");

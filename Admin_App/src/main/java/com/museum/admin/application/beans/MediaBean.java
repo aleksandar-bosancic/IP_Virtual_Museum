@@ -8,16 +8,8 @@ public class MediaBean implements Serializable {
     private int id;
     private int museumId;
     private String path;
+    private String url;
     private boolean isVideo;
-
-    @Override
-    public String toString() {
-        return "MediaBean{" +
-                "museumId=" + museumId +
-                ", path='" + path + '\'' +
-                ", isVideo=" + isVideo +
-                '}';
-    }
 
     public int getId() {
         return id;
@@ -49,5 +41,13 @@ public class MediaBean implements Serializable {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

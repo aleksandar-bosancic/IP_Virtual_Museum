@@ -5,8 +5,17 @@
   width: 20vw;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 .mat-form-field, .mat-raised-button {
   width: 300px;
+}
+
+.input {
+  color: white;
+}
+
+.mat-dialog-container{
+  background-color: white !important;
 }

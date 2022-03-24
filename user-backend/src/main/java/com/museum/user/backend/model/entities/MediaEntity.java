@@ -16,10 +16,13 @@ public class MediaEntity {
     @Basic
     @Column(name = "path")
     private String path;
+    @Basic
+    @Column(name = "url")
+    private String url;
     private Boolean isVideo;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "museum_id", referencedColumnName = "id", nullable = false)
-    @JsonIgnore
     private MuseumEntity museum;
 
     @Basic
@@ -31,5 +34,4 @@ public class MediaEntity {
     public void setVideo(Boolean video) {
         isVideo = video;
     }
-
 }
