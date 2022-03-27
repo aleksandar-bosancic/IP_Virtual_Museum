@@ -11,7 +11,7 @@
     <mat-card class="tours-container">
       <h3 class="museum-details-text">Tours</h3>
       <mat-selection-list role="list" [multiple]="false">
-        <mat-list-option (click)="tourSelected(tour)" *ngFor="let tour of tours" [value]="tour">
+        <mat-list-option style="margin: 5px 0" (click)="tourSelected(tour)" *ngFor="let tour of tours" [value]="tour">
           <p>{{tour.date | date: 'fullDate'}}</p>
           <p>Time: {{tour.date | date: 'H:mm' : 'local'}}, Duration: {{tour.duration}}h</p>
           <p>Price: {{tour.price}}</p>

@@ -1,0 +1,50 @@
+<div class="main-container">
+  <div class="form-card">
+    <form class="form-container" [formGroup]="formGroup">
+      <mat-form-field class="number-field" appearance="fill">
+        <mat-label>Card Number</mat-label>
+        <input formControlName="cardNumber" matInput required>
+      </mat-form-field>
+      <div class="top-container">
+        <mat-form-field appearance="fill" class="holder-form_input">
+          <mat-label>Card Holder Name</mat-label>
+          <input formControlName="holderName" matInput required>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="type-form_input">
+          <mat-label>Choose an option</mat-label>
+          <mat-select formControlName="type">
+            <mat-option disabled>Type</mat-option>
+            <mat-option *ngFor="let type of types" [value]="type">{{type}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="bottom-container">
+        <div class="valid-thru_container">
+          <mat-form-field class="valid-thru_select" appearance="fill">
+            <mat-label>Month</mat-label>
+            <mat-select formControlName="month">
+              <mat-option disabled>Month</mat-option>
+              <mat-option *ngFor="let month of months" [value]="month">{{month}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="valid-thru_select" appearance="fill">
+            <mat-label>Year</mat-label>
+            <mat-select formControlName="year">
+              <mat-option disabled>Year</mat-option>
+              <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <mat-form-field class="pin-input" appearance="fill">
+          <mat-label>Pin</mat-label>
+          <input formControlName="pin" matInput [type]="hide ? 'password' : 'text'" required>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <button class="confirm-button" mat-raised-button color="primary" (click)="purchase()">Confirm</button>
+    </form>
+  </div>
+</div>

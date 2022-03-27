@@ -14,6 +14,9 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatSortModule} from "@angular/material/sort";
 import {MatListModule} from "@angular/material/list";
+import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 const materialModules = [
   MatAutocompleteModule,
@@ -30,7 +33,10 @@ const materialModules = [
   MatSidenavModule,
   MatButtonToggleModule,
   MatSortModule,
-  MatListModule
+  MatListModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 ];
 
 @NgModule({

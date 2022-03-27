@@ -1,0 +1,6 @@
+
+N	java:S106$"9Replace this use of System.out or System.err by a logger.(¡°¿—
+^
+java:S1128"HRemove this unused import 'com.museum.bank.admin.beans.BankAccountBean'.(’á“
+X
+java:S1128"=Remove this unused import 'com.museum.bank.admin.beans.Type'.(ĞÎêşÿÿÿÿ

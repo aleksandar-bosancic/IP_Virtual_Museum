@@ -1,0 +1,78 @@
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  color: white;
+}
+
+.form-card {
+  display: flex;
+  width: 30%;
+  height: 40%;
+  background: #3f51b5;
+  border-radius: 10px;
+}
+
+.form-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+}
+
+.number-field {
+  width: 70%;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.confirm-button {
+  margin-bottom: 10px;
+}
+
+.valid-thru_select {
+  width: 50%;
+}
+
+.pin-input {
+  width: 20%;
+}
+
+.valid-thru_container {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+}
+
+.bottom-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 25%;
+}
+
+.not-empty-select.mat-selected {
+  color: white !important;
+}
+
+:host /deep/ .mat-select-value-text {
+  color: white !important;
+}
+
+.top-container {
+  display: flex;
+  padding: 5px;
+}
+
+.holder-form_input {
+  margin-right: 5px;
+}
+
+.type-form_input {
+  margin-left: 5px;
+}

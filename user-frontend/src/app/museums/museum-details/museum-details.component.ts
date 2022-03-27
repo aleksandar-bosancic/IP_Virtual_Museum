@@ -5,6 +5,9 @@ import {formatDate} from "@angular/common";
 import {Tour} from "../../model/tour.model";
 import {Router} from "@angular/router";
 import {MatDialogRef} from "@angular/material/dialog";
+import {TourService} from "../../tour/services/tour.service";
+import {environment} from "../../../environments/environment";
+import {LogService} from "../../service/log.service";
 
 @Component({
   selector: 'app-museum-details',
@@ -21,7 +24,8 @@ export class MuseumDetailsComponent implements OnInit {
   public tomorrowDate: Date = new Date(new Date().setDate(this.todayDate.getDate() + 1));
   public dayAfterTomorrowDate: Date = new Date(new Date().setDate(this.todayDate.getDate() + 2));
 
-  constructor(private service: MuseumService, private router: Router) {
+  constructor(private service: MuseumService, private router: Router, private tourService: TourService,
+              private logService: LogService) {
   }
 
   ngOnInit(): void {
@@ -46,8 +50,10 @@ export class MuseumDetailsComponent implements OnInit {
   }
 
   tourSelected(tour: any) {
+    this.logService.log(environment.infoCategory, 'tour-purchase: ' + tour.id)
+    this.tourService.setPrice(tour.price);
     // noinspection JSIgnoredPromiseFromCall
-    this.router.navigate(['/tours', tour.museumId]);
+    this.router.navigate(['/tours/tour-purchase', tour.id]);
     this.dialogReference?.close();
   }
 }

@@ -11,13 +11,6 @@ public class TransactionBean implements Serializable {
     private Double amount;
     private Timestamp transactionTime;
 
-    public TransactionBean(Integer id, Integer bankAccountId, Double amount, Timestamp transactionTime) {
-        this.id = id;
-        this.bankAccountId = bankAccountId;
-        this.amount = amount;
-        this.transactionTime = transactionTime;
-    }
-
     public Integer getId() {
         return id;
     }

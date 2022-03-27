@@ -5,6 +5,8 @@ import {MatTableDataSource} from "@angular/material/table";
 import {Sort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
 import {MuseumDetailsComponent} from "../museum-details/museum-details.component";
+import {LogService} from "../../service/log.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-museums',
@@ -19,10 +21,12 @@ export class MuseumsComponent implements OnInit {
   public filterData: Array<Museum> = new Array<Museum>();
   public displayedColumns: string[] = ['name', 'country', 'city'];
 
-  constructor(private detailsDialog: MatDialog, private service: MuseumService) { }
+  constructor(private detailsDialog: MatDialog, private service: MuseumService,
+              private logService: LogService) { }
 
   ngOnInit(): void {
     this.loadData();
+    this.logService.log(environment.infoCategory, 'museums-tab');
   }
 
   loadData(){
@@ -38,12 +42,12 @@ export class MuseumsComponent implements OnInit {
 
 
   applySort(sort: Sort) {
+    this.logService.log(environment.infoCategory, 'museums-sort: ' + sort.active);
     const data = this.dataSource.slice();
     if (!sort.active || sort.direction === ''){
       this.dataSource = data;
       return;
     }
-
     this.dataSource = data.sort((a: Museum,b: Museum) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
@@ -68,6 +72,7 @@ export class MuseumsComponent implements OnInit {
 
   museumClick(row: Museum) {
     let dialogReference = this.detailsDialog.open(MuseumDetailsComponent);
+    this.logService.log(environment.infoCategory, 'museum-click: ' + row.id);
     dialogReference.componentInstance.museum = row;
     dialogReference.componentInstance.dialogReference = dialogReference;
   }

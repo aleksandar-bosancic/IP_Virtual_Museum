@@ -8,7 +8,6 @@ import com.museum.user.backend.model.entities.UserEntity;
 import com.museum.user.backend.repositories.UserEntityRepository;
 import com.museum.user.backend.util.Util;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +26,7 @@ public class UserController {
     private final ModelMapper modelMapper;
     @PersistenceContext
     private EntityManager entityManager;
-    String dgst = "";
+    String digest = "";
 
 
     public UserController(UserEntityRepository repository, ModelMapper modelMapper) {
@@ -42,20 +41,20 @@ public class UserController {
     @PostMapping("login")
     @ResponseStatus(HttpStatus.OK)
     LoginResponse login(@RequestBody LoginRequest loginRequest) {
-        System.out.println(loginRequest);
+        UserEntity user = this.findAll().stream().filter(userEntity -> userEntity.getUsername().equals(loginRequest.getUsername())
+                && userEntity.getPassword().equals(loginRequest.getPassword())).findFirst().orElse(null);
         String hexHash = null;
         String credentials = loginRequest.getUsername() + loginRequest.getPassword();
         try {
             hexHash = Util.bytesToHex(MessageDigest.getInstance("SHA3-256").digest(credentials.getBytes(StandardCharsets.UTF_8)));
-            dgst = hexHash;
+            digest = hexHash;
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        if (this.findAll().stream().anyMatch(userEntity -> userEntity.getUsername().equals(loginRequest.getUsername())
-                && userEntity.getPassword().equals(loginRequest.getPassword()))) {
+        if (user != null && user.getIsApproved()) {
             return new LoginResponse(hexHash);
         } else {
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -65,7 +64,7 @@ public class UserController {
     public User register(@RequestBody RegisterRequest registerRequest) throws ResponseStatusException {
         if (registerRequest.getUsername().equals("") || registerRequest.getPassword().equals("")
                 || registerRequest.getName().equals("") || registerRequest.getLastName().equals("")
-                || registerRequest.getEMail().equals("")) {
+                || registerRequest.getEmail().equals("")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         UserEntity userEntity = modelMapper.map(registerRequest, UserEntity.class);
@@ -78,8 +77,7 @@ public class UserController {
 
     @GetMapping("/test")
     @ResponseStatus(HttpStatus.OK)
-    boolean testAuth(@RequestHeader HttpHeaders authorization) {
-        System.out.println(authorization.get(HttpHeaders.AUTHORIZATION));
+    boolean testAuth() {
         return true;
     }
 }

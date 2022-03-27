@@ -4,6 +4,8 @@ import {TourService} from "../services/tour.service";
 import {Media} from "../../model/media.model";
 import {DomSanitizer} from "@angular/platform-browser";
 import {Tour} from "../../model/tour.model";
+import {LogService} from "../../service/log.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-tour',
@@ -15,9 +17,11 @@ export class TourComponent implements OnInit {
   media: Media[] = [];
   tours: Tour[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private service: TourService, private sanitizer: DomSanitizer) { }
+  constructor(private activatedRoute: ActivatedRoute, private service: TourService, private sanitizer: DomSanitizer,
+              private logService: LogService) { }
 
   ngOnInit(): void {
+    this.logService.log(environment.infoCategory, 'tours-tab');
     this.activatedRoute.params.subscribe(p => {
       this.id = +p['id'];
     });
@@ -36,11 +40,16 @@ export class TourComponent implements OnInit {
   }
 
   loadTour(id: number) {
-    console.log(id)
+    this.logService.log(environment.infoCategory, 'tour-selected: ' + id);
     this.service.getMediaUrls(id).subscribe((result: any) =>{
       this.media = result.map((element: any) => {
         return new Media(element.id, element.museumId, element.url, element.video, this.sanitizer);
       })
     });
+    this.isMediaEmpty()
+  }
+
+  isMediaEmpty(){
+    return this.media.length == 0;
   }
 }

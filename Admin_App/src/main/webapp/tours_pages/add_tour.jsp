@@ -54,7 +54,7 @@
             <div>
                 <div class="mb-5" style="width: 25vh; display: flex; flex-direction: column;">
                     <label for="duration">Duration(hours):</label>
-                    <input class="form-control" type="number" id="duration" name="duration" step="0.1" required>
+                    <input class="form-control" type="number" id="duration" name="duration" step="1" required>
                 </div>
                 <div class="mb-5" style="width: 25vh; display: flex; flex-direction: column;">
                     <label for="price">Price(€):</label>

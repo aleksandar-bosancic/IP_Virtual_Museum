@@ -1,7 +1,7 @@
 <div class="container">
   <div class="tour-list-container">
     <mat-list class="tour-list">
-      <mat-card class="card-tours" *ngFor="let tour of tours" (click)="loadTour(tour.museumId)">
+      <mat-card class="card-tours" *ngFor="let tour of tours" (click)="loadTour(tour.id)">
         <p>{{tour.date | date: 'fullDate'}}</p>
         <p>Time: {{tour.date | date: 'H:mm' : 'local'}}, Duration: {{tour.duration}}h</p>
         <p>Price: {{tour.price}}</p>
@@ -9,11 +9,16 @@
     </mat-list>
   </div>
   <div class="tour-media-container">
-    <mat-list class="media-list">
+    <mat-list class="media-list" *ngIf="!isMediaEmpty()">
       <mat-card *ngFor="let m of media" class="card-media">
         <iframe class="video-iframe" width="100%" height="600" *ngIf="m.isVideo" [src]="m.url" allowfullscreen loading="lazy"></iframe>
         <img *ngIf="!m.isVideo" [src]="m.url" alt="m.id">
       </mat-card>
     </mat-list>
+    <div style="align-self: center" *ngIf="isMediaEmpty()">
+      <h1 style="color: white">
+        Tour is not active right now
+      </h1>
+    </div>
   </div>
 </div>

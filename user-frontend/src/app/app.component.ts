@@ -3,6 +3,8 @@ import {LoginDialogComponent} from "./auth/login-dialog/login-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthService} from "./auth/services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {LogService} from "./service/log.service";
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +14,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class AppComponent {
   title = 'user-frontend';
 
-  constructor(public loginDialog: MatDialog, private service: AuthService, private router: Router, private route: ActivatedRoute) {
+  constructor(public loginDialog: MatDialog, private service: AuthService,
+              private router: Router, private route: ActivatedRoute,
+              private logService: LogService) {
   }
 
   isLoggedIn(): boolean {
@@ -20,6 +24,7 @@ export class AppComponent {
   }
 
   logout(): void {
+    this.logService.log(environment.infoCategory, "logout");
     this.service.logout();
     this.router.navigate(['/'], {relativeTo: this.route}).then();
   }

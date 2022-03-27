@@ -15,17 +15,6 @@ public class BankAccountBean implements Serializable {
     private Double balance;
     private Boolean blocked;
 
-    public BankAccountBean(Integer id, String holderName, String number, Type type, Timestamp validThru, String pin, Double balance, Boolean blocked) {
-        this.id = id;
-        this.holderName = holderName;
-        this.number = number;
-        this.type = type;
-        this.validThru = validThru;
-        this.pin = pin;
-        this.balance = balance;
-        this.blocked = blocked;
-    }
-
     public Integer getId() {
         return id;
     }
