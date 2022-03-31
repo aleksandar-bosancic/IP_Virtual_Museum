@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Payment} from "../../model/payment.model";
 import {TicketRequest} from "../../model/ticket-request.model";
+import {AuthService} from "../../auth/services/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,22 @@ import {TicketRequest} from "../../model/ticket-request.model";
 export class TourService {
   private _tourPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getMediaUrls(id: number){
-    return this.http.get(environment.apiURL + '/media?id=' + id);
+    let header = {
+    headers: new HttpHeaders()
+      .set('Authorization',  `Digest ${this.authService.getToken()}`)
+  }
+    return this.http.get(environment.apiURL + '/media?id=' + id, header);
   }
 
   getTours(){
-    return this.http.get(environment.apiURL + '/tours/' + localStorage.getItem('username'));
+    let header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Digest ${this.authService.getToken()}`)
+    }
+    return this.http.get(environment.apiURL + '/tours/' + localStorage.getItem('username'), header);
   }
 
   processPurchase(payment: Payment){
@@ -26,7 +35,11 @@ export class TourService {
   }
 
   getTicket(ticketRequest: TicketRequest) {
-    return this.http.post(environment.apiURL + '/generate-ticket', ticketRequest);
+    let header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Digest ${this.authService.getToken()}`)
+    }
+    return this.http.post(environment.apiURL + '/generate-ticket', ticketRequest, header);
   }
 
   get tourPrice(): Observable<number> {

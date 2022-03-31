@@ -10,6 +10,7 @@ import com.museum.user.backend.model.entities.UserEntity;
 import com.museum.user.backend.repositories.TicketEntityRepository;
 import com.museum.user.backend.repositories.TourEntityRepository;
 import com.museum.user.backend.repositories.UserEntityRepository;
+import com.museum.user.backend.services.AuthorizationService;
 import com.museum.user.backend.services.MailService;
 import com.museum.user.backend.services.ScheduleService;
 import com.museum.user.backend.util.Util;
@@ -18,6 +19,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -40,6 +42,7 @@ public class TicketController {
     private final TourEntityRepository tourRepository;
     private final TicketEntityRepository ticketRepository;
     private final ScheduleService scheduleService;
+    private final AuthorizationService authorizationService;
     private final MailService mailService;
     private final RestTemplate restTemplate;
     private final ModelMapper modelMapper;
@@ -47,19 +50,23 @@ public class TicketController {
 
     public TicketController(UserEntityRepository userRepository, TourEntityRepository tourRepository,
                             TicketEntityRepository ticketRepository, ScheduleService scheduleService,
-                            MailService mailService, RestTemplateBuilder restTemplateBuilder,
-                            ModelMapper modelMapper) {
+                            AuthorizationService authorizationService, MailService mailService,
+                            RestTemplateBuilder restTemplateBuilder, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.tourRepository = tourRepository;
         this.ticketRepository = ticketRepository;
         this.scheduleService = scheduleService;
+        this.authorizationService = authorizationService;
         this.mailService = mailService;
         this.restTemplate = restTemplateBuilder.build();
         this.modelMapper = modelMapper;
     }
 
     @PostMapping("/generate-ticket")
-    public Ticket generateTicket(@RequestBody TicketRequest ticketRequest) throws DocumentException, IOException, MessagingException {
+    public Ticket generateTicket(@RequestHeader String authorization, @RequestBody TicketRequest ticketRequest) throws DocumentException, IOException, MessagingException {
+        if (!authorizationService.validateKey(authorization)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
         if (ticketRequest.getUsername() == null || ticketRequest.getUsername().equals("")
                 || ticketRequest.getTourId() == 0 || ticketRequest.getTransactionId() == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {environment} from "../../../environments/environment";
 import {Museum} from "../../model/museum.model";
+import {AuthService} from "../../auth/services/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MuseumService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   public getMuseumData() {
-    return this.http.get(environment.apiURL + "/museums")
+    let header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Digest ${this.authService.getToken()}`)
+    }
+    return this.http.get(environment.apiURL + "/museums", header)
   }
 
   public getWeatherData(museum: Museum){
@@ -20,6 +25,10 @@ export class MuseumService {
   }
 
   public getTours(id: number){
-    return this.http.get(environment.apiURL + '/' + id + '/' + 'tours');
+    let header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Digest ${this.authService.getToken()}`)
+    }
+    return this.http.get(environment.apiURL + '/' + id + '/' + 'tours', header);
   }
 }

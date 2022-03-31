@@ -2,8 +2,10 @@ package com.museum.user.backend.controllers;
 
 import com.museum.user.backend.model.Media;
 import com.museum.user.backend.model.Tour;
+import com.museum.user.backend.model.entities.LogsEntity;
 import com.museum.user.backend.repositories.MediaEntityRepository;
 import com.museum.user.backend.repositories.TourEntityRepository;
+import com.museum.user.backend.services.AuthorizationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +18,27 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/media")
 public class MediaController {
     private final MediaEntityRepository repository;
     private final TourEntityRepository tourRepository;
     private final ModelMapper modelMapper;
+    private final AuthorizationService authorizationService;
 
-    public MediaController(MediaEntityRepository repository, TourEntityRepository tourRepository, ModelMapper modelMapper) {
+    public MediaController(MediaEntityRepository repository, TourEntityRepository tourRepository, ModelMapper modelMapper, AuthorizationService authorizationService) {
         this.repository = repository;
         this.tourRepository = tourRepository;
         this.modelMapper = modelMapper;
+        this.authorizationService = authorizationService;
     }
 
-    @GetMapping()
-    List<Media> getMediaURLs(@RequestParam(value = "id", required = false) Integer id) {
+    @GetMapping("/media")
+    List<Media> getMediaURLs(@RequestHeader String authorization, @RequestParam(value = "id", required = false) Integer id) {
+        if (!authorizationService.validateKey(authorization)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        if (id == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         Tour tour = modelMapper.map(tourRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST)), Tour.class);
         Instant currentTime = Instant.now();

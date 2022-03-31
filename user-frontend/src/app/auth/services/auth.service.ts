@@ -16,7 +16,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
   }
-  //TODO napravi autorizaciju za sve requeste
 
   public isLoggedIn(): boolean {
     return localStorage.getItem('isLoggedIn') === 'true';
@@ -41,8 +40,15 @@ export class AuthService {
   }
 
   logout(): void {
+    let session: any = { "username": this.username }
+    const headers = {'Content-Type': 'application/json'}
+    this.http.post<any>(environment.apiURL + '/logout', session, {'headers': headers}).subscribe();
+    this.loggedIn = false;
     localStorage.removeItem(this.token);
     localStorage.removeItem(this.logged);
-    this.loggedIn = false;
+  }
+
+  public getToken(){
+    return localStorage.getItem('token');
   }
 }

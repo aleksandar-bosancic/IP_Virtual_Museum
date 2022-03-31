@@ -16,8 +16,6 @@ import java.nio.file.Files;
 public class UploadServlet extends HttpServlet {
     private static final long serialVersionUID = -352012349533206295L;
 
-//    private static final String UPLOAD_DIRECTORY = "media";
-//    private static final String DEFAULT_PATH = ".." + File.separator + UPLOAD_DIRECTORY + File.separator;
     private static final String VIDEO = ".mp4";
     private static final String IMAGE = ".jpg";
     public static final String MEDIA = "media";
@@ -38,34 +36,6 @@ public class UploadServlet extends HttpServlet {
         File file = new File(mediaBean.getPath());
         Files.copy(file.toPath(), response.getOutputStream());
     }
-
-//    @Override
-//    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        MediaService mediaService = new MediaService();
-//        MediaBean mediaBean = new MediaBean();
-//        int museumId = Integer.parseInt(request.getParameter("museumIdInput"));
-//        File file = new File("media/" + museumId);
-//        if(!file.exists()){
-//            file.mkdir();
-//        }
-//        try {
-//            String fileName = "";
-//            for (Part part : request.getParts()){
-//                fileName = part.getSubmittedFileName();
-//                if (fileName != null){
-//                    mediaBean.setMuseumId(museumId);
-//                    mediaBean.setPath(file.getPath());
-//                    mediaBean.setVideo(fileName.endsWith(".mp4"));
-//                    int mediaId = mediaService.insert(mediaBean);
-//                    part.write(file.getAbsolutePath() + File.separator + mediaId);
-//                    mediaService.updateMediaURL(mediaId, "localhost:8080/Admin_App_war_exploded/tours_pages/UploadServlet?id=" + mediaId);
-//                }
-//            }
-//        } catch (FileNotFoundException fne) {
-//            request.setAttribute("message", "There was an error: " + fne.getMessage());
-//        }
-//        response.sendRedirect(request.getContextPath() + "/tours_pages/manage_presentation.jsp?id=" + museumId);
-//    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

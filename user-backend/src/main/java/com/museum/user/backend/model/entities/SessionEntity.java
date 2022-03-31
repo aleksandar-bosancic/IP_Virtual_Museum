@@ -17,7 +17,7 @@ public class SessionEntity {
     @Column(name = "username", nullable = false, length = 45)
     private String username;
     @Basic
-    @Column(name = "key", nullable = false, length = 45)
+    @Column(name = "session_key", nullable = false, length = 45)
     private String key;
     @Basic
     @Column(name = "valid_until", nullable = false)

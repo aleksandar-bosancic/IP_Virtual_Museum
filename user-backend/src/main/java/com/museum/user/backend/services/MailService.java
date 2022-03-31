@@ -20,12 +20,11 @@ public class MailService {
     public MailService(JavaMailSender emailSender) {
         this.emailSender = emailSender;
     }
-    //TODO promjeni mail prije predaje!!!
     public void sendTicketMail(String path, String email) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom("ip-virtual-museum@gmail.com");
-        helper.setTo("aco-aleksa@hotmail.com"); //helper.setTo(email);
+        helper.setTo(email);
         helper.setSubject("Ticket");
         helper.setText("Ticket for virtual tour is in the attachment.");
         FileSystemResource file
@@ -42,8 +41,7 @@ public class MailService {
     public void sendReminderMail(String email, String message) {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setFrom("ip-virtual-museum@gmail.com");
-        //TODO promjeni mail prije predaje!!!
-        mail.setTo("aco-aleksa@hotmail.com");//mail.setTo(email);
+        mail.setTo(email);
         mail.setSubject("Tour reminder");
         mail.setText(message);
         emailSender.send(mail);

@@ -1,6 +1,7 @@
 <%@ page import="com.museum.admin.application.beans.LogsBean" %>
 <jsp:useBean id="logsService" class="com.museum.admin.application.services.LogsService"/>
 <div class="tab-pane fade" id="logs_panel" role="tabpanel" aria-labelledby="logs-tab">
+    <a class="btn btn-primary" href="${pageContext.request.contextPath}/download-pdf-servlet" style="margin-top: 2vh">Download PDF</a>
     <table class="table table-hover" id="museums_table" style="margin-top: 3vh">
         <thead>
         <tr>

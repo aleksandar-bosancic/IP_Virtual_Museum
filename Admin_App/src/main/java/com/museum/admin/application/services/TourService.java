@@ -15,6 +15,7 @@ public class TourService {
     private static final String DELETE_QUERY = "delete from tour where id=?";
     private static final String INSERT_QUERY = "insert into tour(id, museum_id, date, duration, price) " +
             "value(?,?,?,?, ?)";
+    private static final String DELETE_TICKETS = "delete from ticket where tour_id=?";
 
     public boolean insert(TourBean tourBean){
         Connection connection = null;
@@ -80,6 +81,7 @@ public class TourService {
         if(this.findById(id) == null){
             return false;
         }
+        deleteTicketsFromTour(id);
         try{
             connection = ConnectionPool.getConnection();
             try(PreparedStatement preparedStatement = connection.prepareStatement(DELETE_QUERY)) {
@@ -89,6 +91,24 @@ public class TourService {
             }
         } catch (SQLException exception) {
             System.err.println(exception.getMessage());
+        } finally {
+            ConnectionPool.releaseConnection(connection);
+        }
+        return status;
+    }
+
+    public boolean deleteTicketsFromTour(int tourId) {
+        Connection connection = null;
+        boolean status = false;
+        try {
+            connection = ConnectionPool.getConnection();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TICKETS)){
+                preparedStatement.setInt(1, tourId);
+                int ret = preparedStatement.executeUpdate();
+                status = (ret == 1);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         } finally {
             ConnectionPool.releaseConnection(connection);
         }
